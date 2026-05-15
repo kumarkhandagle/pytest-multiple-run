@@ -1,0 +1,48 @@
+name: Random Seed Regression
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  random-regression:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [42, 99, 1337, 2048, 9999]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Icarus Verilog
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run cocotb simulation
+        env:
+          SEED: ${{ matrix.seed }}
+        run: |
+          make
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-seed-${{ matrix.seed }}
+          path: |
+            sim_build/
+            results.xml
