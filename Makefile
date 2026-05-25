@@ -1,11 +1,10 @@
-TOPLEVEL_LANG = verilog
+TOP = tb_counter_bad
 
-VERILOG_SOURCES = $(PWD)/rtl/simple_reg.v
-TOPLEVEL = simple_reg
-MODULE = test_random
+SRC = rtl/counter_bad.sv tb_counter_bad.sv
 
-SIM ?= iverilog
+run:
+	verilator --binary --timing -Wall $(SRC) --top-module $(TOP)
+	./obj_dir/V$(TOP)
 
-export PYTHONPATH := $(PWD)/tests
-
-include $(shell cocotb-config --makefiles)/Makefile.sim
+clean:
+	rm -rf obj_dir
