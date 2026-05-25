@@ -56,4 +56,5 @@ module tb_counter_bad;
         $finish;
     end
 
+
 endmodule

@@ -23,4 +23,5 @@ module counter_bad (
         end
     end
 
+
 endmodule
