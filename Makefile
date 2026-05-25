@@ -1,6 +1,6 @@
 TOP = tb_counter_bad
 
-SRC = rtl/counter_bad.v tb_counter_bad.v
+SRC = rtl/counter_bad.v tests/tb_counter_bad.v
 
 run:
 	verilator --binary --timing -Wall $(SRC) --top-module $(TOP)
