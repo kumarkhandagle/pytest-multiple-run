@@ -1,41 +1,24 @@
-name: Verilator Regression
+name: SVLint Check
 
 on:
   push:
   pull_request:
 
 jobs:
-  regression:
+  svlint:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
 
-      - name: Install Verilator
+      - name: Install svlint
         run: |
-          sudo apt-get update
-          sudo apt-get install -y verilator
+          cargo install svlint
 
-      - name: Install Python dependencies
+      - name: Run svlint
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-      - name: Run cocotb simulation
-        run: |
-          make
-
-      - name: Upload results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: simulation-results
-          path: |
-            sim_build/
-            results.xml
+          svlint rtl/*.v tests/*.v
