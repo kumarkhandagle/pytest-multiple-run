@@ -16,7 +16,7 @@ module tb_counter_bad;
         .count (count)
     );
 
-    always #5 clk = ~clk;
+    always #5 clk <= ~clk;
 
     initial begin
         clk   = 0;
@@ -55,6 +55,5 @@ module tb_counter_bad;
 
         $finish;
     end
-
 
 endmodule

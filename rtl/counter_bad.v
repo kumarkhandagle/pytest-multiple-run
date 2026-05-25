@@ -1,3 +1,5 @@
+`timescale 1ns/1ps
+
 module counter_bad (
     input  logic       clk,
     input  logic       rst_n,
@@ -22,6 +24,5 @@ module counter_bad (
                 count <= count;
         end
     end
-
 
 endmodule
